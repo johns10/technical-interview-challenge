@@ -1,0 +1,9 @@
+---
+title: <%= name %>
+label: <%= name %>
+group: dogs
+---
+
+# <%= name %>
+
+![<%= name %>](/assets/images/<%= image_dir %>/image.jpg "<%= name %>")

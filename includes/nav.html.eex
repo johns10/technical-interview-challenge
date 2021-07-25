@@ -1,0 +1,12 @@
+<ul>
+  <li x-data="{focus: false, searchTerm: '', results: []}">
+    <div class="dropdown">
+    <input list="dogs" name="myDogs" x-on:keydown='results = search(searchTerm, data)' type="text" x-model="searchTerm" placeholder="Search for a Dog"/>
+      <div class="dropdown-content">
+        <template x-for="item in results">
+          <a :href="item.image_dir" x-text="item.name"></p>
+        </template>
+      </div>
+
+  </li>
+</ul>
