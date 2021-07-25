@@ -1,0 +1,50 @@
+<div phx-click="deactivate">
+  <%= if @live_action in [:new] do %>
+    <%= live_modal @socket, VetspireWeb.DogsLive.FormComponent,
+      id: "dog-form",
+      title: @page_title,
+      action: @live_action,
+      dog: %Dog{},
+      return_to: Routes.dogs_show_path(@socket, :show, @dog) %>
+  <% end %>
+
+  <div class="flex items-center justify-center py-4">
+    <%= form = form_for @changeset, "#",
+      id: "dogs-form",
+      phx_change: "search",
+      class: "relative inline-block text-left" %>
+      <div class="shadow flex">
+        <%= text_input form, :name,
+          class: "w-full rounded p-2",
+          type: "text",
+          placeholder: "Find a Dog ...",
+          phx_focus: "activate",
+          value: @term %>
+        <button class="bg-white w-16 flex justify-end items-center text-blue-500 p-2 hover:text-blue-400">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      <%= if @result != [] do %>
+        <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+          <%= for dog <- @result do %>
+            <div class="py-1" role="none">
+              <%= live_patch dog.name,
+                to: Routes.dogs_show_path(@socket, :show, dog),
+                class: "text-gray-700 block px-4 py-2 text-sm",
+                role: "menuitem", tabindex: "-1" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </form>
+  </div>
+
+
+  <div class="flex items-center justify-center py-4">
+    <div>
+      <h1><%= @dog.name %></h1>
+      <img src="<%= "/images/" <> @dog.name <> ".jpg" %>" alt=<%= @dog.name %>
+    </div>
+    <span><%= live_patch "New Dogs", to: Routes.dogs_show_path(@socket, :new, @dog) %></span>
+  </div>
+</div>
